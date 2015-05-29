@@ -17,3 +17,11 @@ def fail_json(errmsg,data = None):
     except Exception as e:
         print e
         return None
+
+def get_query(req,k)
+    v = req.GET.get(k,None)
+    if not v:
+        v = req.POST.get(k,None)
+    if not v:
+        v = req.FILE.get(k,None)
+    return v
