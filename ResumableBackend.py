@@ -1,16 +1,22 @@
 __author__ = 'wilman'
 from utils.webtools import md5hex
 
-from os.path import isfile,getsize,join
-from os import remove as remove_file
+from os.path import isfile,getsize,join, isdir
+from os import remove as remove_file, mkdir
 from io import BytesIO as IOBuffer
 class Resumable(object):
     upload_tmp_folder = None
     upload_folder = None
 
-    def __init__(self, upload_tmp_folder="uploads", upload_folder="uploads"):
+    def __init__(self, upload_tmp_folder="uploads_tmp", upload_folder="uploads"):
         self.upload_tmp_folder = upload_tmp_folder
         self.upload_folder = upload_folder
+        if not isdir(upload_folder):
+            mkdir(upload_folder)
+        if not isdir(upload_tmp_folder):
+            mkdir(upload_tmp_folder)
+
+
 
     def handle_chunk(self,token, file_blob, file_id,filename, file_blob_size, chunk_inx, chunk_num):
         # print file_blob,len(file_blob),chunk_inx,chunk_num,file_id,filename
@@ -70,7 +76,6 @@ class Resumable(object):
 
         if file_cnt == chunk_num:
             print "file is ready!!"
-
             return True
         else:
             return False
