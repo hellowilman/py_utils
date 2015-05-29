@@ -4,6 +4,8 @@ __author__ = 'Wilman WZ'
 # 你好
 import smtplib
 from email.mime.text import MIMEText
+
+
 class SendEmail(object):
     server = None
     you = None
@@ -60,5 +62,10 @@ class GmailSendEmail(SendEmail):
             print "Initial Gmail succeeded!"
         else:
             print "Initial Gmail failed!"
+
+def send_bfs_email(email):
+    gmsrv=GmailSendEmail("bfschoolhk","bfs@2014!")
+    gmsrv.send([email],'BFS Email','This is a BFS email for ' + email)
+    return 0
 
 

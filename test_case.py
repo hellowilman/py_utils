@@ -15,3 +15,14 @@ def test_webtools():
     print fail_json("some error 2!")
 
 test_sendemail()
+
+q.enqueue(send_bfs_email,"zwilman+21@gmail.com")
+q.enqueue(send_bfs_email,"zwilman+22@gmail.com")
+q.enqueue(send_bfs_email,"zwilman+23@gmail.com")
+q.enqueue(send_bfs_email,"zwilman+24@gmail.com")
+q.enqueue(send_bfs_email,"zwilman+25@gmail.com")
+q.enqueue(send_bfs_email,"zwilman+26@gmail.com")
+q.enqueue(send_bfs_email,"zwilman+27@gmail.com")
+q.enqueue(send_bfs_email,"zwilman+28@gmail.com")
+q.enqueue(send_bfs_email,"zwilman+29@gmail.com")
+q.enqueue(send_bfs_email,"zwilman+30@gmail.com")
