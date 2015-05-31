@@ -42,6 +42,7 @@ class SendEmail(object):
             Mmsg['Subject'] = subject
             Mmsg['From'] = you
             Mmsg['To'] = ','.join(to_addrs)
+            print Mmsg.as_string() 
             try:
                 self.server.sendmail(self.you,to_addrs,Mmsg.as_string())
             except Exception as e:
