@@ -1,9 +1,13 @@
 __author__ = 'wilman'
-from utils.webtools import md5hex
+
 
 from os.path import isfile,getsize,join, isdir
 from os import remove as remove_file, mkdir
 from io import BytesIO as IOBuffer
+import hashlib
+def md5hex(str):
+    return hashlib.md5(str).hexdigest()
+
 class Resumable(object):
     upload_tmp_folder = None
     upload_folder = None
@@ -16,8 +20,8 @@ class Resumable(object):
         if not isdir(upload_tmp_folder):
             mkdir(upload_tmp_folder)
 
-
-
+    def get_full_file_name(self,token,file_id,filename):
+        return join(self.upload_folder,md5hex(token+file_id)+"-"+filename)
     def handle_chunk(self,token, file_blob, file_id,filename, file_blob_size, chunk_inx, chunk_num):
         # print file_blob,len(file_blob),chunk_inx,chunk_num,file_id,filename
         if len(file_blob) != file_blob_size:
@@ -27,14 +31,16 @@ class Resumable(object):
         fln = md5hex(token+file_id) + "-" + chunk_num + "-" + chunk_inx+ ".tmp"
         try:
             fs = open(join(self.upload_tmp_folder,fln),"wb")
-            for c in file_blob.chunks():
-                fs.write(c)
+            #for c in file_blob.chunks():
+            #    fs.write(c)
+            fs.write(file_blob)
             fs.close()
 
             if self.check_all_chunks_ready(token,file_id,chunk_num):
                 data = self.merge_chunk_files(token,file_id,chunk_num)
                 if data:
-                    f = open(join(self.upload_folder,md5hex(token+file_id)+"-"+filename),"wb")
+                    fln = self.get_full_file_name(token,file_id,filename)
+                    f = open(fln,"wb")
                     f.write(data.read())
                     f.close()
                     self.del_chunk_tmp_files(token,file_id,chunk_num)

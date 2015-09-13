@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form>
+    <div>
+        <input type="file" id="uploadBtn"/>
+    </div>
+</form>
+<script src="/static/resumable.js"></script>
+<script>
+    param = {target: '/upload/', query: {upload_token: 'resumable_token'}, simultaneousUploads: 1};
+    function rinit() {
+        if (window.r) {
+            r.assignDrop(document.getElementById('uploadBtn'));
+        }
+        r = new Resumable(param);
+        r.on('fileAdded', function (file) {
+            console.log("added");
+            console.log(file);
+            this.upload();
+        });
+
+        r.on('fileSuccess', function (file, message) {
+
+            console.log("File is Done!")
+            console.log(message);
+        });
+
+        r.on('fileError', function (file, message) {
+            console.log("error");
+            console.log(file);
+            console.log(message);
+        });
+        r.on('progress', function () {
+            console.log(this.progress());
+        });
+        r.assignBrowse(document.getElementById('uploadBtn'));
+    }
+
+    rinit();
+
+
+</script>
+</body>
+</html>
