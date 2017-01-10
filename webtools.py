@@ -3,9 +3,9 @@ __author__ = 'Wilman WZ'
 import simplejson as json
 import hashlib
 
-def ok_json(data):
+def ok_json(data, msg = None):
     try:
-        s =  json.dumps({"ok":True,"data":data})
+        s =  json.dumps({"ok":True,"data":data, "msg":msg})
         return s
     except Exception as e:
         print e
