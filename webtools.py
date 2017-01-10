@@ -19,6 +19,14 @@ def fail_json(errmsg,data = None):
         print e
         return None
 
+# do rest commands
+def rest_post(url,data):
+    pass
+def rest_get(url,data):
+    pass
+
+
+# flask get_query
 def get_query(req,k):
     v = req.GET.get(k,None)
     if not v:
@@ -27,5 +35,6 @@ def get_query(req,k):
         v = req.FILES.get(k,None)
     return v
 
+# get md5 digest from string
 def md5hex(str):
     return hashlib.md5(str).hexdigest()
